@@ -53,12 +53,48 @@ def check_stack(grid, pos):
 def winner(grid):
     for i in range(grid.line_number):
         for j in range(grid.column_number):
-            
+            if grid.table[j][i] != 0:
+                won = False
+                if i < grid.line_number - 4:
+                    won = check_stack(grid, (j, i))
+                if not won and j < grid.column_number - 4:
+                    won = check_line(grid, (j, i))
+                if not won:
+                    won = check_diagonals(grid, (j, i))
+                if won:
+                    return won, grid.table[j][i]
+    return False, 0
 
+
+def player_input(grid):
+    flag = True
+    while flag:
+        try:
+            choice = input("Enter column choice : ")
+            choice = int(choice)
+            flag = False
+        except ValueError:
+            print("Enter an integer")
+        if not flag:
+            flag = not grid.space(choice)
+    return choice
+
+
+def play_round(grid, player):
+    choice = player_input(grid)
+    grid.add_token(player, choice)
 
 
 def main():
     game_grid = Grid()
+    end = winner(game_grid)
+    player = 1
+    while not end[0]:
+        play_round(game_grid, player)
+        end = winner(game_grid)
+        print(game_grid.table)
+        player = (player % 2) + 1
+    print("GG, player", end[1], "won")
 
 
 if __name__ == "__main__":
