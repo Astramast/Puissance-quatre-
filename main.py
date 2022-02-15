@@ -76,13 +76,19 @@ def player_input(grid):
         except ValueError:
             print("Enter an integer")
         if not flag:
-            flag = not grid.space(choice)
+            flag = 0 <= choice < grid.column_number
     return choice
 
 
 def play_round(grid, player):
-    choice = player_input(grid)
-    grid.add_token(player, choice)
+    flag = True
+    while flag:
+        choice = player_input(grid)
+        try:
+            grid.add_token(player, choice)
+            flag = False
+        except ValueError:
+            print("This column is full !")
 
 
 def main():
