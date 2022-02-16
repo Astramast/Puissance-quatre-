@@ -77,6 +77,7 @@ def player_input(grid):
             print("Enter an integer")
         if not flag:
             flag = 0 <= choice < grid.column_number
+            flag = not flag
     return choice
 
 
@@ -91,14 +92,29 @@ def play_round(grid, player):
             print("This column is full !")
 
 
+def stamp_grid(grid):
+    for i in range(grid.line_number - 1, -1, -1):
+        for j in range(grid.column_number):
+            if grid.table[j][i] == 0:
+                k = "."
+            elif grid.table[j][i] == 1:
+                k = "O"
+            else:
+                k = "X"
+            print("|", k, end=' ')
+        print("|")
+    print("  0   1   2   3   4   5   6")
+
+
 def main():
     game_grid = Grid()
     end = winner(game_grid)
     player = 1
+    stamp_grid(game_grid)
     while not end[0]:
         play_round(game_grid, player)
         end = winner(game_grid)
-        print(game_grid.table)
+        stamp_grid(game_grid)
         player = (player % 2) + 1
     print("GG, player", end[1], "won")
 
