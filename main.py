@@ -59,7 +59,7 @@ def winner(grid):
                     won = check_stack(grid, (j, i))
                 if not won and j < grid.column_number - 4:
                     won = check_line(grid, (j, i))
-                if not won:
+                if not won and i < grid.line_number - 4:
                     won = check_diagonals(grid, (j, i))
                 if won:
                     return won, grid.table[j][i]
@@ -96,7 +96,7 @@ def stamp_grid(grid):
     for i in range(grid.line_number - 1, -1, -1):
         for j in range(grid.column_number):
             if grid.table[j][i] == 0:
-                k = "."
+                k = " "
             elif grid.table[j][i] == 1:
                 k = "O"
             else:
