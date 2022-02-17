@@ -63,7 +63,11 @@ def winner(grid):
                     won = check_diagonals(grid, (j, i))
                 if won:
                     return won, grid.table[j][i]
-    return False, 0
+    flag = True
+    for i in range(grid.column_number):
+        if flag and grid.space(i):
+            flag = False
+    return (True, 0) if flag else (False, 0)
 
 
 def player_input(grid):
@@ -116,7 +120,12 @@ def main():
         end = winner(game_grid)
         stamp_grid(game_grid)
         player = (player % 2) + 1
-    print("GG, player", end[1], "won")
+        print(end)
+    if end[0] and end[1] == 0:
+        print("Draw, you really boring players. =-= I reset the game for you.")
+        main()
+    else:
+        print("GG, player", end[1], "won")
 
 
 if __name__ == "__main__":
